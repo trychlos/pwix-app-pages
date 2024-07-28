@@ -24,9 +24,9 @@ Package.onTest( function( api ){
 
 function configure( api ){
     api.versionsFrom([ '2.9.0', '3.0-rc.0' ]);
-    api.use( 'check' );
     api.use( 'ecmascript' );
     api.use( 'ostrio:flow-router-extra@3.10.0 || 3.11.0-rc300.0' );
+    api.use( 'pwix:core-app' );
     api.use( 'reactive-dict' );
     api.use( 'reactive-var' );
     api.use( 'tmeasday:check-npm-versions@1.0.2 || 2.0.0-beta.0', 'server' );

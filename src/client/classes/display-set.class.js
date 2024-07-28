@@ -10,8 +10,6 @@
 import _ from 'lodash';
 const assert = require( 'assert' ).strict;
 
-import { check } from 'meteor/check';
-
 import { Base } from '../../common/classes/base.class';
 
 import { DisplayUnit } from './display-unit.class';
@@ -38,14 +36,16 @@ export class DisplaySet extends Base {
      * @param {Object} set the application-provided definition of displayable units, as a keyed object where:
      *  - the key is the name of the display unit, must obviously be unique
      *  - the value is an object which describes the properties of the display unit
-     * @param {Function} unitFn an optional constructor, defaulting to AppPages.DisplayUnit
-     *  the prototype must be unitFn( key<String>, properties<Object> ): <DisplayUnit>-derived instance
+     * @param {Object} opts an optional options object, with folloging keys:
+     *  - unitFn: an optional constructor, defaulting to AppPages.DisplayUnit
+     *    the prototype must be unitFn( key<String>, properties<Object> ): <DisplayUnit>-derived instance
      * @returns {DisplaySet} this set
      * @throws {Exception} if the provided definition is not valid
      */
-    constructor( set, unitFn ){
-        assert( set && _.isObject( set ), 'pwix:app-pages DisplaySet() expect an object, got '+set );
-        assert( !unitFn || _.isFunction( unitFn ), 'pwix:app-pages DisplaySet() expect an optional function, got '+unitFn );
+    constructor( set, opts={} ){
+        assert( set && _.isObject( set ), 'pwix:app-pages DisplaySet() expects an object, got '+set );
+        assert( _.isObject( opts ), 'pwix:app-pages DisplaySet() expects an optional options object, got '+opts );
+        assert( !opts.unitFn || _.isFunction( opts.unitFn ), 'pwix:app-pages DisplaySet() expects an optional \'unitFn\' function, got '+opts.unitFn );
         super( ...arguments );
 
         if( DisplaySet.Singleton ){
@@ -55,7 +55,7 @@ export class DisplaySet extends Base {
 
         DisplaySet.Singleton = this;
 
-        unitFn = unitFn || DisplayUnit;
+        unitFn = opts.unitFn || DisplayUnit;
 
         Object.keys( set ).forEach(( k ) => {
             this.#set[k] = new unitFn( k, set[k] );
@@ -72,8 +72,8 @@ export class DisplaySet extends Base {
      * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
      */
     async buildMenu( menu, isAllowed ){
-        check( menu, String );
-        check( isAllowed, Match.OneOf( Function, null ));
+        assert( menu && _.isString( menu ), 'pwix:app-pages DisplaySet.buildMenu() expects a string, got '+menu );
+        assert( !isAllowed || _.isFunction( isAllowed ), 'pwix:app-pages DisplaySet.buildMenu() expects an optional function, got '+isAllowed );
         let pages = [];
         let promises = [];
         this.enumerate( async ( name, page ) => {

@@ -56,8 +56,6 @@
 
 import _ from 'lodash';
 
-import { check } from 'meteor/check';
-
 import { Base } from '../../common/classes/base.class';
 
 export class DisplayUnit extends Base {
@@ -92,7 +90,7 @@ export class DisplayUnit extends Base {
     //  set the default value if provided
     _checkString( o, key, defValue=null ){
         if( Object.keys( o ).includes( key )){
-            check( o[key], String );
+            assert( o[key] && _.isString( o[key] ), 'pwix:app-pages DisplayUnit() expects a string, got '+o[key] );
         } else if( defValue ){
             o[key] = defValue;
         }
@@ -128,7 +126,7 @@ export class DisplayUnit extends Base {
         super( ...arguments );
 
         // may throw an error
-        check( name, String );
+        assert( name && _.isString( name ), 'pwix:app-pages DisplayUnit() expects a string, got '+name );
 
         this._checkStringOrArray( def, 'classes', AppPages.configure().classes );
         this._checkStringOrArray( def, 'inMenus', [] );
