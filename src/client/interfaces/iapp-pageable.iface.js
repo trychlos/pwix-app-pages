@@ -53,6 +53,7 @@ export const IAppPageable = DeclareMixin(( superclass ) => class extends supercl
         AppPages.DisplaySet.Singleton.enumerate( async ( name, page ) => {
             if( page.get( 'inMenus' ).includes( menu )){
                 const wantPermission = page.get( 'wantPermission' );
+                console.debug( 'wantPermission', wantPermission );
                 const p = Promise.resolve( !wantPermission || isAllowed( wantPermission ));
                 pages.push( page );
                 promises.push( p );

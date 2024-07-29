@@ -45,8 +45,13 @@
  *                      Please note that, even if this option is optional, we do not get any rendering if it is not set.
  *
  *  - templateParms
- *                      Type: Object
+ *                      Type: Object|Function
  *                      Parameters to be passed to the template, defaulting to an empty object.
+ *
+ *  - wantPermission
+ *                      Type: String|Function
+ *                      A permission string to be passed to the isAllowed() function, defaulting to null (allowed)
+ *                      This permission determines the display/accessability of the display unit
  *
  * Please note that - after a try - we have decided to NOT use SimpleSchema to validate the provided definition.
  * Main reason is that it is difficult (or at least not documented) to use a longhand definition when type is either a string or an array of strings.
@@ -128,10 +133,11 @@ export class DisplayUnit {
         this._checkStringOrArray( def, 'classes', AppPages.configure().classes );
         this._checkStringOrArray( def, 'inMenus', [] );
         this._checkString( def, 'menuIcon', AppPages.configure().menuIcon );
-        this._checkString( def, 'menuLabel' );
+        this._checkString( def, 'menuLabel', name );
         this._checkString( def, 'route' );
         this._checkString( def, 'template' );
         this._checkObjectOrFunction( def, 'templateParms' );
+        this._checkString( def, 'wantPermission' );
 
         this.#name = name;
         this.#def = { ...def };
