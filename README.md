@@ -4,7 +4,7 @@
 
 A package which let an application describe its pages, modals and so on, said _display units_. It relies on `pwix:core-app` and extends the `CoreApp.RunContext` class with a `IAppPageable` interface.
 
-The packages provides for that two client classes:
+The packages provides too two client classes:
 
 - `AppPages.DisplayUnit`
 
@@ -23,6 +23,22 @@ The exported `AppPages` global object provides following items:
 An ensemble of `AppPages.DisplayUnit` instances.
 
 This class can be used as-is, or can be derived by the application.
+
+#### Interfaces
+
+##### `IAppPageable`
+
+The `IAppPageable` interface extends the `CoreApp.RunContext` class with folllowing methods:
+
+- `ipageableBuildMenu( menu>String>, isAllowed<Function> )`
+
+    Returns the array of the `DisplayUnit`'s to be used in the specified menu.
+
+- `ipageablePage()`
+
+    Returns the current `DisplayUnit` page.
+
+    A reactive data source.
 
 ##### `AppPages.DisplayUnit`
 

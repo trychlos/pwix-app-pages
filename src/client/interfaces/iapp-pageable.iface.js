@@ -1,7 +1,7 @@
 /*
  * pwix:app-pages/src/client/interfaces/iapp-pageable.iface.js
  *
- * An interface to be implemented by the providers which define a scope.
+ * An interface which extends the application RunContext with a pages management.
  * 
  * See also https://github.com/justinfagnani/mixwith.js
  */
@@ -34,6 +34,9 @@ export const IAppPageable = DeclareMixin(( superclass ) => class extends supercl
             const page = this.#currentPage.get();
             _verbose( AppPages.C.Verbose.PAGE, 'IAppPageable currentPage', page ? page.name() : page );
         });
+
+        // keep this instance at the package level (hoping there is only one)
+        AppPages.runContext = this;
 
         return this;
     } 
