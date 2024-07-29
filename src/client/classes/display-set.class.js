@@ -10,11 +10,9 @@
 import _ from 'lodash';
 const assert = require( 'assert' ).strict;
 
-import { Base } from '../../common/classes/base.class';
-
 import { DisplayUnit } from './display-unit.class';
 
-export class DisplaySet extends Base {
+export class DisplaySet {
 
     // static data
 
@@ -46,7 +44,6 @@ export class DisplaySet extends Base {
         assert( set && _.isObject( set ), 'pwix:app-pages DisplaySet() expects an object, got '+set );
         assert( _.isObject( opts ), 'pwix:app-pages DisplaySet() expects an optional options object, got '+opts );
         assert( !opts.unitFn || _.isFunction( opts.unitFn ), 'pwix:app-pages DisplaySet() expects an optional \'unitFn\' function, got '+opts.unitFn );
-        super( ...arguments );
 
         if( DisplaySet.Singleton ){
             console.log( 'pwix:app-pages DisplaySet() trying to instanciates a new instance of an already existing singleton, returning the singleton' );

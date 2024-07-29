@@ -57,9 +57,7 @@
 import _ from 'lodash';
 const assert = require( 'assert' ).strict;
 
-import { Base } from '../../common/classes/base.class';
-
-export class DisplayUnit extends Base {
+export class DisplayUnit {
 
     // static data
 
@@ -124,8 +122,6 @@ export class DisplayUnit extends Base {
      * @throws {Exception} if the provided definition is not valid
      */
     constructor( name, def ){
-        super( ...arguments );
-
         // may throw an error
         assert( name && _.isString( name ), 'pwix:app-pages DisplayUnit() expects a string, got '+name );
 
