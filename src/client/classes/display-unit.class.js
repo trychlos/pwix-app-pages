@@ -55,6 +55,7 @@
  */
 
 import _ from 'lodash';
+const assert = require( 'assert' ).strict;
 
 import { Base } from '../../common/classes/base.class';
 
@@ -139,7 +140,7 @@ export class DisplayUnit extends Base {
         this.#name = name;
         this.#def = { ...def };
 
-        _verbose( AppPages.C.Verbose.DISPLAY_UNIT, 'pwix:app-pages defining \''+name+'\' display unit' );
+        _verbose( AppPages.C.Verbose.DISPLAY_UNIT, 'DisplayUnit instanciation', name );
 
         return this;
     }

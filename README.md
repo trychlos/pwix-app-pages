@@ -44,28 +44,6 @@ The package's behavior can be configured through a call to the `AppPages.configu
 
 Known configuration options are:
 
-- `adminRole`
-
-    Define the name of the **application administrator** role.
-
-    Default to 'APP_ADMINISTRATOR'.
-
-    As a reminder, this same value is expected to be also configured in the `pwix:startup-app-admin` package.
-
-- `layout`
-
-    Define the name of the default layout for a page which doesn't define it.
-
-    Default to 'app'.
-
-    This layout is expected to be provided by the application.
-
-- `routePrefix`
-
-    Define the prefix of the routes to be used in provided links.
-
-    Default to `/coreUI`.
-
 - `classes`
 
     A list of classes to be added to display units.
@@ -87,8 +65,12 @@ Known configuration options are:
         Trace `AppPages.configure()` calls and their result
 
     - `AppPages.C.Verbose.PAGE`
+    
+        Trace the current page changes
 
-        Trace changes on page and relevant authorizations
+    - `AppPages.C.Verbose.DISPLAY_UNIT`
+
+        Trace DisplayUnit's instanciations
 
 Please note that `AppPages.configure()` method should be called in the same terms both in client and server sides.
 

@@ -27,11 +27,9 @@ function configure( api ){
     api.use( 'ecmascript' );
     api.use( 'ostrio:flow-router-extra@3.10.0 || 3.11.0-rc300.0' );
     api.use( 'pwix:core-app' );
-    api.use( 'reactive-dict' );
     api.use( 'reactive-var' );
     api.use( 'tmeasday:check-npm-versions@1.0.2 || 2.0.0-beta.0', 'server' );
     api.use( 'tracker' );
-    //api.use( 'tracker', 'client' );
 }
 
 // NPM dependencies are checked in /src/server/js/check_npms.js

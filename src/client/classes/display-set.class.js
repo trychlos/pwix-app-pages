@@ -65,40 +65,6 @@ export class DisplaySet extends Base {
     }
 
     /**
-     * @summary build a list of the display units which are planned to appear in the specified menu
-     * @param {String} menu the name of the menu
-     * @param {Function} isAllowed an optional (async) permission function
-     *  When null, the user is considered allowed to
-     * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
-     */
-    async buildMenu( menu, isAllowed ){
-        assert( menu && _.isString( menu ), 'pwix:app-pages DisplaySet.buildMenu() expects a string, got '+menu );
-        assert( !isAllowed || _.isFunction( isAllowed ), 'pwix:app-pages DisplaySet.buildMenu() expects an optional function, got '+isAllowed );
-        let pages = [];
-        let promises = [];
-        this.enumerate( async ( name, page ) => {
-            if( page.get( 'inMenus' ).includes( menu )){
-                const wantPermission = page.get( 'wantPermission' );
-                const p = Promise.resolve( !wantPermission || isAllowed( wantPermission ));
-                pages.push( page );
-                promises.push( p );
-            }
-            return true;
-        });
-        let allowed = [];
-        return Promise.allSettled( promises ).then(( res ) => {
-            assert( res.length === pages.length, 'expect res.length === pages.length' );
-            for( let i=0 ; i<pages.length ; ++i ){
-                if( res[i].value ){
-                    allowed.push( pages[i] );
-                }
-            }
-            //console.debug( 'returning', allowed );
-            return allowed;
-        });
-    }
-
-    /**
      * @summary Find a unit definition by name
      * @param {String} name
      * @returns {DisplayUnit} the found definition, or null

@@ -10,10 +10,6 @@ let _conf = {};
 AppPages._conf = new ReactiveVar( _conf );
 
 AppPages._defaults = {
-    appName: null,
-    adminRole: 'APP_ADMINISTRATOR',
-    menuIcon: 'fa-chevron-right',
-    routePrefix: '/coreApp',
     classes: [ 't-page' ],
     verbosity: AppPages.C.Verbose.CONFIGURE
 };
