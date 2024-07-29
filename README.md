@@ -50,6 +50,10 @@ Known configuration options are:
 
     Default to `[ 't-page' ]`.
 
+- `menu-icon`
+
+    The menu icon, defaulting to `fa-chevron-right`.
+
 - `verbosity`
 
     Define the expected verbosity level.

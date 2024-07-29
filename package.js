@@ -27,6 +27,7 @@ function configure( api ){
     api.use( 'ecmascript' );
     api.use( 'ostrio:flow-router-extra@3.10.0 || 3.11.0-rc300.0' );
     api.use( 'pwix:core-app' );
+    api.use( 'pwix:ui-fontawesome6@1.0.0' );
     api.use( 'reactive-var' );
     api.use( 'tmeasday:check-npm-versions@1.0.2 || 2.0.0-beta.0', 'server' );
     api.use( 'tracker' );

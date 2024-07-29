@@ -11,6 +11,7 @@ AppPages._conf = new ReactiveVar( _conf );
 
 AppPages._defaults = {
     classes: [ 't-page' ],
+    menuIcon: 'fa-chevron-right',
     verbosity: AppPages.C.Verbose.CONFIGURE
 };
 
