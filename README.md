@@ -112,6 +112,8 @@ Following parameters are recognized:
 
     This permission is expected to determine the display/availability/visibility of the display unit for the current user.
 
+    Do not set anything here for public pages. Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the configured `allowFn` function.
+
 Methods are:
 
 - `get( key<String> ): Any`
@@ -158,13 +160,21 @@ The package's behavior can be configured through a call to the `AppPages.configu
 
 Known configuration options are:
 
+- `allowFn`
+
+    An async function which will be called with an action string identifier, and must return whether the current user is allowed to do the specified action.
+
+    If the function is not provided, then the default is to deny all actions.
+
+    `allowFn` prototype is: `async allowFn( action<String> [, ...<Any> ] ): Boolean`
+
 - `classes`
 
     A list of classes to be added to display units.
 
     Default to `[ 't-page' ]`.
 
-- `menu-icon`
+- `menuIcon`
 
     The menu icon, defaulting to `fa-chevron-right`.
 

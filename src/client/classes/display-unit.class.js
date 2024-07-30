@@ -131,27 +131,4 @@ export class DisplayUnit {
     name(){
         return this.#name;
     }
-
-    /**
-     * @returns {Boolean} with value=true if the current page is scoped.
-     *  A page is said 'scoped':
-     *  - if it is qualified with 'wantScope=true' in the display units definition
-     *  - or if one of the permissions it requires is itself scoped (qualified as such in the roles hierarchy definition)
-     *  - or if the roleAssignment of this role for this user is itself scoped
-     */
-    /*
-    wantScope(){
-        if( this.get( 'wantScope' )){
-            return true;
-        }
-        let wantScope = false;
-        this.get( 'rolesAccess' ).every(( role ) => {
-            if( Roles.isRoleScoped( role )){
-                wantScope = true;
-                return !wantScope;
-            }
-        });
-        return wantScope;
-    }
-    */
 }

@@ -2,11 +2,12 @@
 
 ## ChangeLog
 
-### 1.0.1-rc
+### 1.1.0-rc
 
     Release date: 
 
-    - Keep the RunContext pointer at the package level
+    - Keep the RunContext pointer at the package leve
+    - Add allowFn configuration option, bumping minor candidate version number
 
 ### 1.0.0
 
