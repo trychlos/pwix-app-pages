@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - Keep the RunContext pointer as the package level
+    - Keep the RunContext pointer at the package level
 
 ### 1.0.0
 

@@ -24,6 +24,104 @@ An ensemble of `AppPages.DisplayUnit` instances.
 
 This class can be used as-is, or can be derived by the application.
 
+The application is expected to instanciate a `DisplaySet` singleton with the list of `DisplayUnit`'s to be managed.
+
+Methods are:
+
+- `byName( name<String> ): DisplayUnit|null`
+
+    This method returns the named `DisplayUnit`.
+
+- `enumerate( cb<Function>, args<Any> )`
+
+    This method iterates through the `DisplaySet` set, and call the provided `cb` callback.
+
+    The enumeration is stopped when the callback returns `false`.
+
+    The callback has following prototype: `cb( name<String>, def<DisplayUnit>, args<Any> ): Boolean`.
+
+##### `AppPages.DisplayUnit`
+
+A display unit, either a page or a modal or anything which can go into a menu.
+
+This class can be used as-is, or can be derived by the application.
+
+Following parameters are recognized:
+
+- `classes`
+
+    Type: Array<String>
+
+    The classes to be added.
+
+    Defaulting to the configured value.
+
+- `inMenus`
+
+    Definition type: String or Array of strings
+
+    Returned type: Array of strings
+
+    The menus names in which this page may appear as an item.
+
+    Defaulting to an empty array.
+
+- `menuIcon`
+
+    Type: String
+
+    The name of the FontAwesome icon to be used in front of the menu label.
+
+    Defaulting to the configured value.
+
+- `menuLabel`
+
+    Type: String
+
+    The I18n translation key for the menu label.
+
+    Defaulting to the (untranslated) display unit name.
+
+- `route`
+
+    the route to the page
+
+    Defaulting to null.
+
+- `template`
+
+    Type: String
+
+    The template to be loaded
+
+    Defaulting to null.
+
+    Please note that, even if this option is optional, we do not get any rendering if it is not set.
+
+- `templateParms`
+
+    Type: Object|Function
+
+    Parameters to be passed to the template, defaulting to an empty object.
+
+- `wantPermission`
+
+    Type: String
+
+    A permission string to be passed to a isAllowed() function, defaulting to null (allowed)
+
+    This permission is expected to determine the display/availability/visibility of the display unit for the current user.
+
+Methods are:
+
+- `get( key<String> ): Any`
+
+    This method returns the parameter value for the specified key.
+
+- `name(): String`
+
+    This method returns the unique name of this `DisplayUnit`.
+
 #### Interfaces
 
 ##### `IAppPageable`

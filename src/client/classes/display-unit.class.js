@@ -14,44 +14,13 @@
  *                      MANDATORY (no default).
  *
  *  - classes
- *                      Type: Array<String>
- *                      The classes to be added.
- *                      Defaulting to the configured value.
- *
  *  - inMenus
- *                      Definition type: String or Array of strings
- *                      Returned type: Array of strings
- *                      The menus names in which this page may appear as an item.
- *                      Defaulting to an empty array.
- *
  *  - menuIcon
- *                      Type: String
- *                      The name of the FontAwesome icon to be used in front of the menu label.
- *                      Defaulting to the configured value.
- *
  *  - menuLabel
- *                      Type: String
- *                      The I18n translation key for the menu label.
- *                      Defaulting to the (untranslated) display unit name.
- *
  *  - route
- *                      the route to the page
- *                      Defaulting to null.
- *
  *  - template
- *                      Type: String
- *                      The template to be loaded
- *                      Defaulting to null.
- *                      Please note that, even if this option is optional, we do not get any rendering if it is not set.
- *
  *  - templateParms
- *                      Type: Object|Function
- *                      Parameters to be passed to the template, defaulting to an empty object.
- *
  *  - wantPermission
- *                      Type: String|Function
- *                      A permission string to be passed to the isAllowed() function, defaulting to null (allowed)
- *                      This permission determines the display/accessability of the display unit
  *
  * Please note that - after a try - we have decided to NOT use SimpleSchema to validate the provided definition.
  * Main reason is that it is difficult (or at least not documented) to use a longhand definition when type is either a string or an array of strings.
