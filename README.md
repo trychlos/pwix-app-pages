@@ -154,6 +154,10 @@ See [below](#configuration).
 
 A reactive data source.
 
+## Permissions management
+
+This package can take advantage of `pwix:permissions` package to manage the user permissions through the `wantPermission` `DisplayUnit` tag. When present, the tag is used as the action string identifier when calling the configured `allowFn()` function.
+
 ## Configuration
 
 The package's behavior can be configured through a call to the `AppPages.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
