@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.1.0-rc
+### 1.1.0
 
-    Release date: 
+    Release date: 2024- 8-11
 
     - Keep the RunContext pointer at the package leve
     - Add allowFn configuration option, bumping minor candidate version number
@@ -17,4 +17,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Jul. 29th
+- Last updated on 2024, Aug. 11th
