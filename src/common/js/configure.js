@@ -24,7 +24,7 @@ AppPages._defaults = {
  */
 AppPages.configure = function( o ){
     if( o && _.isObject( o )){
-        _.merge( _conf, AppPages._defaults, o );
+        _conf = _.merge( AppPages._defaults, _conf, o );
         AppPages._conf.set( _conf );
         // be verbose if asked for
         if( _conf.verbosity & AppPages.C.Verbose.CONFIGURE ){
@@ -36,5 +36,5 @@ AppPages.configure = function( o ){
     return AppPages._conf.get();
 }
 
-_.merge( _conf, AppPages._defaults );
+_conf = _.merge( {}, AppPages._defaults );
 AppPages._conf.set( _conf );
