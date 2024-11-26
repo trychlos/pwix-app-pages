@@ -10,6 +10,10 @@ The packages provides too two client classes:
 
 - `AppPages.DisplaySet`
 
+Each of these classes can of course be used as-is, or be derived by the application, this later being the suggested use for more flexibility.
+
+These classes can be instanciated and used on the client side only. Nothing forces them to also be instanciated on the server side. It is nonetheless not uncommon to define them in the common code, when, for example, a webapp wants a list of routes used by the user interface.
+
 ## Provides
 
 ### `AppPages`
@@ -22,11 +26,21 @@ The exported `AppPages` global object provides following items:
 
 An ensemble of `AppPages.DisplayUnit` instances.
 
-This class can be used as-is, or can be derived by the application.
-
-The application is expected to instanciate a `DisplaySet` singleton with the list of `DisplayUnit`'s to be managed.
+This class can be used as-is, or can be derived by the application. This is the reason for why this class is not automatically instanciated at initialization time. The application is expected to instanciate a `DisplaySet` singleton with the list of `DisplayUnit`'s to be managed.
 
 Methods are:
+
+- `new DisplaySet( set<Object>, opts<Object>={} ): DisplaySet`
+
+    The constructor.
+
+    it takes following arguments:
+
+    - `set`:, an object where the keys are the (unique) name of the display units, and the values an object which describes the properties of the display unit.
+
+    - `opts`: an optional options object, with folloging keys:
+
+        - `unitFn`: an optional constructor, defaulting to `AppPages.DisplayUnit`
 
 - `byName( name<String> ): DisplayUnit|null`
 
@@ -34,87 +48,95 @@ Methods are:
 
 - `enumerate( cb<Function>, args<Any> )`
 
-    This method iterates through the `DisplaySet` set, and call the provided `cb` callback.
+    This method iterates through the `DisplaySet` set, and calls the provided `cb` callback.
 
     The enumeration is stopped when the callback returns `false`.
 
-    The callback has following prototype: `cb( name<String>, def<DisplayUnit>, args<Any> ): Boolean`.
+    The callback has following prototype: `cb( name<String>, unit<DisplayUnit>, args<Any> ): Boolean`.
 
 ##### `AppPages.DisplayUnit`
 
-A display unit, either a page or a modal or anything which can go into a menu.
+A display unit, either a page or a modal or anything which can be addressable from a menu.
 
 This class can be used as-is, or can be derived by the application.
 
-Following parameters are recognized:
-
-- `classes`
-
-    Type: Array<String>
-
-    The classes to be added.
-
-    Defaulting to the configured value.
-
-- `inMenus`
-
-    Definition type: String or Array of strings
-
-    Returned type: Array of strings
-
-    The menus names in which this page may appear as an item.
-
-    Defaulting to an empty array.
-
-- `menuIcon`
-
-    Type: String
-
-    The name of the FontAwesome icon to be used in front of the menu label.
-
-    Defaulting to the configured value.
-
-- `menuLabel`
-
-    Type: String
-
-    The I18n translation key for the menu label.
-
-    Defaulting to the (untranslated) display unit name.
-
-- `route`
-
-    the route to the page
-
-    Defaulting to null.
-
-- `template`
-
-    Type: String
-
-    The template to be loaded
-
-    Defaulting to null.
-
-    Please note that, even if this option is optional, we do not get any rendering if it is not set.
-
-- `templateParms`
-
-    Type: Object|Function
-
-    Parameters to be passed to the template, defaulting to an empty object.
-
-- `wantPermission`
-
-    Type: String
-
-    A permission string to be passed to a isAllowed() function, defaulting to null (allowed)
-
-    This permission is expected to determine the display/availability/visibility of the display unit for the current user.
-
-    Do not set anything here for public pages. Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the configured `allowFn` function.
-
 Methods are:
+
+- `new DisplayUnit( name<String>, properties<Object> ): DisplayUnit`
+
+    The constructor.
+
+    it takes following arguments:
+
+    - `name`: the (unique) name of the display unit
+
+    - `properties`: the display unit properties:
+
+        - `classes`
+
+            Type: Array<String>
+
+            The classes to be added.
+
+            Defaulting to the configured value.
+
+        - `inMenus`
+
+            Definition type: String or Array of strings
+
+            Returned type: Array of strings
+
+            The menus names in which this page may appear as an item.
+
+            Defaulting to an empty array.
+
+        - `menuIcon`
+
+            Type: String
+
+            The name of the FontAwesome icon to be used in front of the menu label.
+
+            Defaulting to the configured value.
+
+        - `menuLabel`
+
+            Type: String
+
+            The I18n translation key for the menu label.
+
+            Defaulting to the (untranslated) display unit name.
+
+        - `route`
+
+            the route to the page
+
+            Defaulting to null.
+
+        - `template`
+
+            Type: String
+
+            The template to be loaded
+
+            Defaulting to null.
+
+            Please note that this option must be set to get any rendering.
+
+        - `templateParms`
+
+            Type: Object|Function
+
+            Parameters to be passed to the template, defaulting to an empty object.
+
+        - `wantPermission`
+
+            Type: String
+
+            A permission string to be passed to a isAllowed() function, defaulting to null (allowed)
+
+            This permission is expected to determine the display/availability/visibility of the display unit for the current user.
+
+            Do not set anything here for public pages. Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the configured `allowFn` function.
 
 - `get( key<String> ): Any`
 
@@ -126,9 +148,21 @@ Methods are:
 
 #### Interfaces
 
-##### `IAppPageable`
+##### `AppPages.IAppPageable`
 
-The `IAppPageable` interface extends the `CoreApp.RunContext` class with folllowing methods:
+The definition of the interface added to `CoreApp.RunContext` class.
+
+#### Functions
+
+##### `AppPages.configure()`
+
+See [below](#configuration).
+
+A reactive data source.
+
+### Interfaces
+
+The `pwix:app-pages` package extends the `CoreApp.RunContext` class with the `IAppPageable` interface, providing following methods:
 
 - `ipageableBuildMenu( menu>String>, isAllowed<Function> )`
 
@@ -140,23 +174,9 @@ The `IAppPageable` interface extends the `CoreApp.RunContext` class with folllow
 
     A reactive data source.
 
-##### `AppPages.DisplayUnit`
-
-A page with its route, or a single modal dialog, or anything which can goes into a menu.
-
-This class can be used as-is, or can be derived by the application.
-
-#### Functions
-
-##### `AppPages.configure()`
-
-See [below](#configuration).
-
-A reactive data source.
-
 ## Permissions management
 
-This package can take advantage of `pwix:permissions` package to manage the user permissions through the `wantPermission` `DisplayUnit` tag. When present, the tag is used as the action string identifier when calling the configured `allowFn()` function.
+This package can take advantage of `pwix:permissions` package to manage the user permissions through the `wantPermission` `DisplayUnit` property. When present, the property is used as the action string identifier when calling the configured `allowFn()` function.
 
 ## Configuration
 
