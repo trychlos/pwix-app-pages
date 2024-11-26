@@ -1,5 +1,5 @@
 /*
- * pwix:app-pages/src/client/classes/display-unit.class.js
+ * pwix:app-pages/src/common/classes/display-unit.class.js
  *
  * This class manages a display unit, which may be either a page or a modal.
  * A page display unit has its own route, while a modal doesn't.

@@ -1,8 +1,8 @@
 /*
- * pwix:app-pages/src/client/classes/display-set.class.js
+ * pwix:app-pages/src/common/classes/display-set.class.js
  *
  * This class manages the individual DisplayUnit's.
- * This is a singleton instanciated once on client-side at application initialization time.
+ * This is a singleton instanciated once at application initialization time.
  * 
  * This class is designed so that the application can directly instanciate it, or may also derive it to build its own derived class.
  */

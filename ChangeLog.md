@@ -2,11 +2,12 @@
 
 ## ChangeLog
 
-### 1.1.2-rc
+### 1.2.0-rc
 
     Release date: 
 
     - Improve documentation
+    - Move classes and interfaces definitions to common code, thus bumping minor candidate version number
 
 ### 1.1.1
 

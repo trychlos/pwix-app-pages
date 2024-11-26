@@ -1,5 +1,5 @@
 /*
- * pwix:app-pages/src/client/interfaces/iapp-pageable.iface.js
+ * pwix:app-pages/src/common/interfaces/iapp-pageable.iface.js
  *
  * An interface which extends the application RunContext with a pages management.
  * 

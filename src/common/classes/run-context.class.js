@@ -1,5 +1,5 @@
 /*
- * pwix:app-pages/src/client/classes/run-context.class.js
+ * pwix:app-pages/src/common/classes/run-context.class.js
  */
 
 import _ from 'lodash';
@@ -31,3 +31,6 @@ export class RunContext extends mix( CoreApp.RunContext ).with( IAppPageable ){
         return this;
     }
 }
+
+// replace the original, public and published, CoreApp.RunContext class after having been interfaced here
+CoreApp.RunContext = RunContext;
