@@ -46,8 +46,8 @@ export const IAppPageable = DeclareMixin(( superclass ) => class extends supercl
      * @param {String} menu the name of the menu
      * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
      */
-    async ipageableBuildMenu( menu ){
-        assert( menu && _.isString( menu ), 'pwix:app-pages IAppPageable.ipageableBuildMenu() expects a string, got '+menu );
+    async iAppPageableBuildMenu( menu ){
+        assert( menu && _.isString( menu ), 'pwix:app-pages IAppPageable.iAppPageableBuildMenu() expects a string, got '+menu );
         let pages = [];
         let promises = [];
         const allowFn = AppPages.configure().allowFn;
@@ -77,7 +77,7 @@ export const IAppPageable = DeclareMixin(( superclass ) => class extends supercl
     /**
      * @returns {DisplayUnit} the current page
      */
-    ipageablePage(){
+    iAppPageablePage(){
         return this.#currentPage.get();
     } 
 });

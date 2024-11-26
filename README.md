@@ -164,11 +164,11 @@ A reactive data source.
 
 The `pwix:app-pages` package extends the `CoreApp.RunContext` class with the `IAppPageable` interface, providing following methods:
 
-- `ipageableBuildMenu( menu>String>, isAllowed<Function> )`
+- `iAppPageableBuildMenu( menu>String>, isAllowed<Function> )`
 
     Returns the array of the `DisplayUnit`'s to be used in the specified menu.
 
-- `ipageablePage()`
+- `iAppPageablePage()`
 
     Returns the current `DisplayUnit` page.
 

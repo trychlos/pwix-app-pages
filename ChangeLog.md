@@ -8,6 +8,7 @@
 
     - Improve documentation
     - Move classes and interfaces definitions to common code, thus bumping minor candidate version number
+    - IAppPageable methods are now prefixed with iAppPageable
 
 ### 1.1.1
 
