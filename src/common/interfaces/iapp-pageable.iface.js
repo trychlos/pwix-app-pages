@@ -68,7 +68,7 @@ export const IAppPageable = DeclareMixin(( superclass ) => class extends supercl
     /**
      * @returns {DisplayUnit} the current page
      */
-    iAppPageablePage(){
+    iAppPageableCurrent(){
         return this.#currentPage.get();
     } 
 });

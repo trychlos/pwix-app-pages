@@ -11,6 +11,7 @@
     - IAppPageable methods are now prefixed with iAppPageable
     - Define new DisplayUnit.allowed() method
     - Modify the DisplayUnit class, transforming private data into protected to make derivation easyer
+    - Rename iAppPageablePage() interface method to iAppPageableCurrent()
 
 ### 1.1.1
 

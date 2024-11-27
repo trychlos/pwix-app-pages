@@ -174,7 +174,7 @@ The `pwix:app-pages` package extends the `CoreApp.RunContext` class with the `IA
 
     Returns the array of the `DisplayUnit`'s to be used in the specified menu.
 
-- `iAppPageablePage()`
+- `iAppPageableCurrent()`
 
     Returns the current `DisplayUnit` page.
 
