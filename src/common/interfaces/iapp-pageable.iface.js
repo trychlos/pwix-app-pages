@@ -50,28 +50,19 @@ export const IAppPageable = DeclareMixin(( superclass ) => class extends supercl
         assert( menu && _.isString( menu ), 'pwix:app-pages IAppPageable.iAppPageableBuildMenu() expects a string, got '+menu );
         let pages = [];
         let promises = [];
-        const allowFn = AppPages.configure().allowFn;
-        AppPages.DisplaySet.Singleton.enumerate( async ( name, page ) => {
+        AppPages.DisplaySet.Singleton.enumerate(( name, page ) => {
             if( page.get( 'inMenus' ).includes( menu )){
-                const wantPermission = page.get( 'wantPermission' );
-                //console.debug( 'wantPermission', wantPermission );
-                const p = Promise.resolve( allowFn && wantPermission ? allowFn( wantPermission ) : !wantPermission );
-                pages.push( page );
-                promises.push( p );
+                promises.push( page.accessAllowed().then(( res ) => {
+                    if( res ){
+                        pages.push( page );
+                    }
+                    return true;
+                }));
             }
             return true;
         });
-        let allowed = [];
-        return Promise.allSettled( promises ).then(( res ) => {
-            assert( res.length === pages.length, 'expect res.length === pages.length' );
-            for( let i=0 ; i<pages.length ; ++i ){
-                if( res[i].value ){
-                    allowed.push( pages[i] );
-                }
-            }
-            //console.debug( 'returning', allowed );
-            return allowed;
-        });
+        await Promise.allSettled( promises );
+        return pages;
     }
 
     /**

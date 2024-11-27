@@ -132,11 +132,17 @@ Methods are:
 
             Type: String
 
-            A permission string to be passed to a isAllowed() function, defaulting to null (allowed)
+            A permission string to be passed as the action to a isAllowed() function, defaulting to null (allowed)
 
             This permission is expected to determine the display/availability/visibility of the display unit for the current user.
 
-            Do not set anything here for public pages. Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the configured `allowFn` function.
+            Do not set anything here for public pages. Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the configured `allowFn()` function.
+
+- `async accessAllowed(): Boolean`
+
+    This method determines if the current user is allowed to access the display unit.
+
+    It uses the `allowFn()` configured function and the `wantPermission` action string of the display unit.
 
 - `get( key<String> ): Any`
 
@@ -190,7 +196,7 @@ Known configuration options are:
 
     If the function is not provided, then the default is to deny all actions.
 
-    `allowFn` prototype is: `async allowFn( action<String> [, ...<Any> ] ): Boolean`
+    `allowFn` prototype is: `async allowFn( action<String>, user<String|Object>, page<DisplayUnit> ): Boolean`
 
 - `classes`
 

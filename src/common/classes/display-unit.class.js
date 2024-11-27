@@ -117,6 +117,17 @@ export class DisplayUnit {
     }
 
     /**
+     * @param {String|Object} user the identifier or document object, defaulting to current user on client side, to null on server side
+     * @returns {Boolean} whether the current user is allowed to access this display unit
+     */
+    async accessAllowed( user ){
+        const allowFn = AppPages.configure().allowFn;
+        const wantPermission = this.get( 'wantPermission' );
+        const res = await ( allowFn && wantPermission ? allowFn( wantPermission, user, this ) : false );
+        return res;
+}
+
+    /**
      * @summary Generic getter
      * @param {String} key the name of the desired field
      * @returns {Any} the corresponding value
