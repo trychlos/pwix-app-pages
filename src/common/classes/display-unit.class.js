@@ -39,13 +39,29 @@ export class DisplayUnit {
 
     // private data
     #name = null;
-    #def = null;
 
     // private methods
+
+    // protected data
+    //  these check methods are underscore_prefixed to mark them private along a common usage in javascript
+    //  but we can consider them as only protected, and so useable by derived classes (and so not easily updatable)
+    _def = null;
 
     // protected methods
     //  these check methods are underscore_prefixed to mark them private along a common usage in javascript
     //  but we can consider them as only protected, and so useable by derived classes (and so not easily updatable)
+
+    // check that the (optional) value is a boolean
+    //  set the default value if provided
+    _checkBoolean( o, key, defValue=null ){
+        if( Object.keys( o ).includes( key )){
+            if( !Match.test( o[key], Boolean )){
+                throw new Error( key+' is not a boolean' );
+            }
+        } else if( defValue ){
+            o[key] = defValue;
+        }
+    }
 
     // check that the (optional) value is an object or a function
     //  set the default value if provided
@@ -89,10 +105,10 @@ export class DisplayUnit {
 
     /**
      * Constructor
-     * @locus Client
+     * @locus Anywhere
      * @param {String} name the unit name
      * @param {Object} def the unit definition as a javascript object
-     * @returns {DisplayUnit} a DisplayUnit object
+     * @returns {DisplayUnit} this instance
      * @throws {Exception} if the provided definition is not valid
      */
     constructor( name, def ){
@@ -109,7 +125,7 @@ export class DisplayUnit {
         this._checkString( def, 'wantPermission' );
 
         this.#name = name;
-        this.#def = { ...def };
+        this._def = { ...def };
 
         _verbose( AppPages.C.Verbose.DISPLAY_UNIT, 'DisplayUnit instanciation', name );
 
@@ -117,6 +133,7 @@ export class DisplayUnit {
     }
 
     /**
+     * @locus Anywhere
      * @param {String|Object} user the identifier or document object, defaulting to current user on client side, to null on server side
      * @returns {Boolean} whether the current user is allowed to access this display unit
      */
@@ -128,15 +145,17 @@ export class DisplayUnit {
 }
 
     /**
+     * @locus Anywhere
      * @summary Generic getter
      * @param {String} key the name of the desired field
      * @returns {Any} the corresponding value
      */
     get( key ){
-        return key === 'name' ? this.name() : this.#def[key];
+        return key === 'name' ? this.name() : this._def[key];
     }
 
     /**
+     * @locus Anywhere
      * @returns {String} the page name
      */
     name(){

@@ -10,6 +10,7 @@
     - Move classes and interfaces definitions to common code, thus bumping minor candidate version number
     - IAppPageable methods are now prefixed with iAppPageable
     - Define new DisplayUnit.allowed() method
+    - Modify the DisplayUnit class, transforming private data into protected to make derivation easyer
 
 ### 1.1.1
 
