@@ -29,7 +29,7 @@
  */
 
 import _ from 'lodash';
-const assert = require( 'assert' ).strict;
+import { strict as assert } from 'node:assert';
 
 export class DisplayUnit {
 
@@ -112,7 +112,7 @@ export class DisplayUnit {
      * @throws {Exception} if the provided definition is not valid
      */
     constructor( name, def ){
-        // may throw an error
+        _trace( 'DisplayUnit::constructor() name='+name );
         assert( name && _.isString( name ), 'pwix:app-pages DisplayUnit() expects a string, got '+name );
 
         this._checkStringOrArray( def, 'classes', AppPages.configure().classes );
@@ -138,6 +138,7 @@ export class DisplayUnit {
      * @returns {Boolean} whether the current user is allowed to access this display unit
      */
     async accessAllowed( user ){
+        _trace( 'DisplayUnit::accessAllowed() user='+user );
         const allowFn = AppPages.configure().allowFn;
         const wantPermission = this.get( 'wantPermission' );
         const res = await ( allowFn && wantPermission ? allowFn( wantPermission, user, this ) : false );
@@ -151,6 +152,7 @@ export class DisplayUnit {
      * @returns {Any} the corresponding value
      */
     get( key ){
+        _trace( 'DisplayUnit::get() key='+key );
         return key === 'name' ? this.name() : this._def[key];
     }
 
@@ -159,6 +161,7 @@ export class DisplayUnit {
      * @returns {String} the page name
      */
     name(){
+        _trace( 'DisplayUnit::name()' );
         return this.#name;
     }
 }

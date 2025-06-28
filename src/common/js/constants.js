@@ -8,7 +8,7 @@ AppPages.C = {
         NONE: 0,
         CONFIGURE:      0x01 <<  0,
         FUNCTIONS:      0x01 <<  1,
-        PAGE:           0x01 <<  2,
+        CURRENT_PAGE:   0x01 <<  2,
         DISPLAY_UNIT:   0x01 <<  3
     }
 };

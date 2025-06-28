@@ -2,17 +2,17 @@
 
 ## What is it ?
 
-A package which let an application describe its pages, modals and so on, said _display units_. It relies on `pwix:core-app` and extends the `CoreApp.RunContext` class with a `IAppPageable` interface.
+A package which let an application describe its pages, modals and so on, said _display units_.
 
-The packages provides too two client classes:
+The packages provides three client classes:
 
-- `AppPages.DisplayUnit`
+- `AppPages.DisplayUnit` which manages each display unit,
 
-- `AppPages.DisplaySet`
+- `AppPages.DisplaySet` which gathers all display units of the application
 
-Each of these classes can of course be used as-is, or be derived by the application, this later being the suggested use for more flexibility.
+- `AppPages.RunContext` which provides and manages runtime live informations and permissions about the currently displayed unit.
 
-These classes can be instanciated and used on the client side only. Nothing forces them to also be instanciated on the server side. It is nonetheless not uncommon to define them in the common code, when, for example, a webapp wants a list of routes used by the user interface.
+These classes are defined, and can be used, in common code.
 
 ## Provides
 
@@ -26,11 +26,11 @@ The exported `AppPages` global object provides following items:
 
 An ensemble of `AppPages.DisplayUnit` instances.
 
-This class can be used as-is, or can be derived by the application. This is the reason for why this class is not automatically instanciated at initialization time. The application is expected to instanciate a `DisplaySet` singleton with the list of `DisplayUnit`'s to be managed.
+This class can be used as-is, or can be derived by the application. This is the reason for why this class is not automatically instanciated at initialization time. The application is expected to instanciate its `AppPages.DisplaySet` with the list of `AppPages.DisplayUnit`'s to be managed.
 
 Methods are:
 
-- `new DisplaySet( set<Object>, opts<Object>={} ): DisplaySet`
+- `new AppPages.DisplaySet( set<Object>, opts<Object>={} ): AppPages.DisplaySet`
 
     The constructor.
 
@@ -38,21 +38,19 @@ Methods are:
 
     - `set`:, an object where the keys are the (unique) name of the display units, and the values an object which describes the properties of the display unit.
 
-    - `opts`: an optional options object, with folloging keys:
+    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.displaySet`.
 
-        - `unitFn`: an optional constructor, defaulting to `AppPages.DisplayUnit`
+- `byName( name<String> ): AppPages.DisplayUnit|null`
 
-- `byName( name<String> ): DisplayUnit|null`
-
-    This method returns the named `DisplayUnit`.
+    This method returns the named `AppPages.DisplayUnit` if found, or null.
 
 - `enumerate( cb<Function>, args<Any> )`
 
-    This method iterates through the `DisplaySet` set, and calls the provided `cb` callback.
+    This method iterates through the `AppPages.DisplaySet` set, and calls the provided `cb` callback.
 
     The enumeration is stopped when the callback returns `false`.
 
-    The callback has following prototype: `cb( name<String>, unit<DisplayUnit>, args<Any> ): Boolean`.
+    The callback has following prototype: `cb( name<String>, unit<AppPages.DisplayUnit>, args<Any> ): Boolean`.
 
 ##### `AppPages.DisplayUnit`
 
@@ -62,7 +60,7 @@ This class can be used as-is, or can be derived by the application.
 
 Methods are:
 
-- `new DisplayUnit( name<String>, properties<Object> ): DisplayUnit`
+- `new AppPages.DisplayUnit( name<String>, properties<Object> ): AppPages.DisplayUnit`
 
     The constructor.
 
@@ -78,7 +76,7 @@ Methods are:
 
             The classes to be added.
 
-            Defaulting to the configured value.
+            Defaulting to the [configured](#configuration) value.
 
         - `inMenus`
 
@@ -96,7 +94,7 @@ Methods are:
 
             The name of the FontAwesome icon to be used in front of the menu label.
 
-            Defaulting to the configured value.
+            Defaulting to the [configured](#configuration) value.
 
         - `menuLabel`
 
@@ -132,17 +130,19 @@ Methods are:
 
             Type: String
 
-            A permission string to be passed as the action to a isAllowed() function, defaulting to null (allowed)
+            A permission string to be passed as the action to an `isAllowed()` function, defaulting to null (allowed)
 
             This permission is expected to determine the display/availability/visibility of the display unit for the current user.
 
-            Do not set anything here for public pages. Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the configured `allowFn()` function.
+            Do not set anything here for public pages.
+            
+            Contrarily, having a `wantPermission` non-empty string means that the permissions of the current user must be validated by the application through the [configured](#configuration) `allowFn()` function.
 
 - `async accessAllowed(): Boolean`
 
     This method determines if the current user is allowed to access the display unit.
 
-    It uses the `allowFn()` configured function and the `wantPermission` action string of the display unit.
+    It calls the `allowFn()` [configured](#configuration) function with the `wantPermission` action string of the display unit.
 
 - `get( key<String> ): Any`
 
@@ -150,13 +150,49 @@ Methods are:
 
 - `name(): String`
 
-    This method returns the unique name of this `DisplayUnit`.
+    This method returns the unique name of this `AppPages.DisplayUnit`.
 
-#### Interfaces
+##### `AppPages.RunContext`
 
-##### `AppPages.IAppPageable`
+Let the application access or manages to live informations and permissions.
 
-The definition of the interface added to `CoreApp.RunContext` class.
+This class can be used as-is, or can be derived by the application.
+
+Methods are:
+
+- `new AppPages.RunContext(): AppPages.RunContext`
+
+    The constructor.
+
+    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.runContext`.
+
+- `currentPage(): AppPages.DisplayUnit`
+
+    This method the current display unit computed from the current route.
+
+    A reactive data source.
+
+- `dataContext( dc<Any> ): Any`
+
+    This method gets or sets the data context of the current display unit.
+
+    A reactive data source.
+
+- `async getMenu( name<String> ): Array<AppPages.DisplayUnit>`
+
+    Returns the list of the display units available in the specified menu and allowed to the current user.
+
+- `async wantFooter(): Boolean`
+
+    Whether we want display a page footer.
+
+    This method should most probably be overriden by the application.
+
+- `async wantHeader(): Boolean`
+
+    Whether we want display a page header.
+
+    This method should most probably be overriden by the application.
 
 #### Functions
 
@@ -196,7 +232,7 @@ Known configuration options are:
 
     If the function is not provided, then the default is to deny all actions.
 
-    `allowFn` prototype is: `async allowFn( action<String>, user<String|Object>, page<DisplayUnit> ): Boolean`
+    `allowFn` prototype is: `async allowFn( permission<String>, user<String|Object>, page<DisplayUnit> ): Boolean`
 
 - `classes`
 
@@ -222,13 +258,17 @@ Known configuration options are:
 
         Trace `AppPages.configure()` calls and their result
 
-    - `AppPages.C.Verbose.PAGE`
+    - `AppPages.C.Verbose.CUURENT_PAGE`
     
         Trace the current page changes
 
     - `AppPages.C.Verbose.DISPLAY_UNIT`
 
         Trace DisplayUnit's instanciations
+
+    - `AppPages.C.Verbose.FUNCTIONS`
+
+        Trace all functions calls
 
 Please note that `AppPages.configure()` method should be called in the same terms both in client and server sides.
 

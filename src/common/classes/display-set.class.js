@@ -1,22 +1,17 @@
 /*
  * pwix:app-pages/src/common/classes/display-set.class.js
  *
- * This class manages the individual DisplayUnit's.
- * This is a singleton instanciated once at application initialization time.
+ * This class manages the list of individual DisplayUnit's to be managed by the application.
  * 
  * This class is designed so that the application can directly instanciate it, or may also derive it to build its own derived class.
  */
 
 import _ from 'lodash';
-const assert = require( 'assert' ).strict;
-
-import { DisplayUnit } from './display-unit.class';
+import { strict as assert } from 'node:assert';
 
 export class DisplaySet {
 
     // static data
-
-    static Singleton = null;
 
     // static methods
 
@@ -34,29 +29,19 @@ export class DisplaySet {
      * @param {Object} set the application-provided definition of displayable units, as a keyed object where:
      *  - the key is the name of the display unit, must obviously be unique
      *  - the value is an object which describes the properties of the display unit
-     * @param {Object} opts an optional options object, with folloging keys:
-     *  - unitFn: an optional constructor, defaulting to AppPages.DisplayUnit
-     *    the prototype must be unitFn( key<String>, properties<Object> ): <DisplayUnit>-derived instance
      * @returns {DisplaySet} this set
-     * @throws {Exception} if the provided definition is not valid
+     * @throws {Exception} if the provided set is not valid
      */
-    constructor( set, opts={} ){
+    constructor( set ){
+        _trace( 'DisplaySet::constructor() set='+set );
         assert( set && _.isObject( set ), 'pwix:app-pages DisplaySet() expects an object, got '+set );
-        assert( _.isObject( opts ), 'pwix:app-pages DisplaySet() expects an optional options object, got '+opts );
-        assert( !opts.unitFn || _.isFunction( opts.unitFn ), 'pwix:app-pages DisplaySet() expects an optional \'unitFn\' function, got '+opts.unitFn );
-
-        if( DisplaySet.Singleton ){
-            console.log( 'pwix:app-pages DisplaySet() trying to instanciates a new instance of an already existing singleton, returning the singleton' );
-            return DisplaySet.Singleton;
-        }
-
-        DisplaySet.Singleton = this;
-
-        unitFn = opts.unitFn || DisplayUnit;
 
         Object.keys( set ).forEach(( k ) => {
-            this.#set[k] = new unitFn( k, set[k] );
+            this.#set[k] = new AppPages.DisplayUnit( k, set[k] );
         });
+
+        // without forcing a singleton, we nonetheless keep a unique instance at the package level
+        AppPages.displaySet = this;
 
         return this;
     }
@@ -68,6 +53,7 @@ export class DisplaySet {
      * @returns {DisplayUnit} the found definition, or null
      */
     byName( name ){
+        _trace( 'DisplaySet::byName() name='+name );
         return this.#set[name] || null;
     }
 
@@ -79,13 +65,11 @@ export class DisplaySet {
      * @param {Any} arg an optional argument to be provided to the cb() callback
      */
     enumerate( cb, arg=null ){
+        _trace( 'DisplaySet::enumerate()' );
         const self = this;
-        if( !cb || !_.isFunction( cb )){
-            console.error( 'expected a function, found', cb );
-        } else {
-            Object.keys( self.#set ).sort().every(( key ) => {
-                return cb( key, self.#set[key], arg );
-            });
-        }
+        assert( cb && _.isFunction( cb ), 'expected a function, found '+cb );
+        Object.keys( self.#set ).sort().every(( key ) => {
+            return cb( key, self.#set[key], arg );
+        });
     }
 }
