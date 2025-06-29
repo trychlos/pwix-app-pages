@@ -26,7 +26,7 @@ The exported `AppPages` global object provides following items:
 
 An ensemble of `AppPages.DisplayUnit` instances.
 
-This class can be used as-is, or can be derived by the application. This is the reason for why this class is not automatically instanciated at initialization time. The application is expected to instanciate its `AppPages.DisplaySet` with the list of `AppPages.DisplayUnit`'s to be managed.
+This class can be used as-is, or can be derived by the application. This is the reason for why this class is not automatically instanciated at initialization time. The application is expected to instanciate its `AppPages.DisplaySet` with the list of `AppPages.DisplayUnit`'s definition objects (not instances) to be managed.
 
 Methods are:
 
@@ -38,7 +38,7 @@ Methods are:
 
     - `set`:, an object where the keys are the (unique) name of the display units, and the values an object which describes the properties of the display unit.
 
-    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.displaySet`.
+    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored, in a ReactiveVar, as `AppPages.displaySet`.
 
 - `byName( name<String> ): AppPages.DisplayUnit|null`
 
@@ -164,7 +164,7 @@ Methods are:
 
     The constructor.
 
-    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.runContext`.
+    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored, in a ReactiveVar, as `AppPages.runContext`.
 
 - `currentPage(): AppPages.DisplayUnit`
 
@@ -202,19 +202,23 @@ See [below](#configuration).
 
 A reactive data source.
 
-### Interfaces
+### Objects
 
-The `pwix:app-pages` package extends the `CoreApp.RunContext` class with the `IAppPageable` interface, providing following methods:
+### `displayUnitDefs`
 
-- `iAppPageableBuildMenu( menu>String>, isAllowed<Function> )`
+The `pwix:app-pages` package offers a `AppPages.displayUnitDefs` empty object as a placeholder where other packages are free to install the definitions of the display units they want exhibit.
 
-    Returns the array of the `DisplayUnit`'s to be used in the specified menu.
+Most often, the application may so:
 
-- `iAppPageableCurrent()`
+- install its own display unit definitions
 
-    Returns the current `DisplayUnit` page.
+- instanciate its display set with:
 
-    A reactive data source.
+```js
+    new AppPages.DisplaySet( AppPages.displayUnitDefs );
+```
+
+    Remind that the resulting display set will be available as a `AppPages.displaySet` ReactiveVar.
 
 ## Permissions management
 

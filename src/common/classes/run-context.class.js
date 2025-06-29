@@ -7,6 +7,7 @@
 import _ from 'lodash';
 import { strict as assert } from 'node:assert';
 
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 export class RunContext {
@@ -41,16 +42,17 @@ export class RunContext {
         Tracker.autorun(() => {
             const routeName = FlowRouter.getRouteName();
             let page = null;
-            if( AppPages.displaySet ){
-                assert( AppPages.displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+AppPages.displaySet );
-                const page = AppPages.displaySet.byName( routeName );
+            const displaySet = AppPages.displaySet.get();
+            if( displaySet ){
+                assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
+                const page = displaySet.byName( routeName );
             }
             self.#currentPage.set( page );
             _verbose( AppPages.C.Verbose.CURRENT_PAGE, 'RunContext::currentPage=', page ? page.name() : page );
         });
 
-        // without forcing a singleton, we nonetheless keep a unique instance at the package level
-        AppPages.runContext = this;
+        // without forcing a singleton, we nonetheless keep a unique instance at the package level as a ReactiveVar
+        AppPages.runContext.set( this );
 
         return this;
     }
@@ -94,9 +96,10 @@ export class RunContext {
         assert( menu && _.isString( menu ), 'pwix:app-pages RunContext::getMenu() expects a string, got '+menu );
         let pages = [];
         let promises = [];
-        if( AppPages.displaySet ){
-            assert( AppPages.displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+AppPages.displaySet );
-            AppPages.displaySet.enumerate(( name, page ) => {
+        const displaySet = AppPages.displaySet.get();
+        if( displaySet ){
+            assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
+            displaySet.enumerate(( name, page ) => {
                 if( page.get( 'inMenus' ).includes( menu )){
                     promises.push( page.accessAllowed().then(( res ) => {
                         if( res ){

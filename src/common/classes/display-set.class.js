@@ -40,8 +40,8 @@ export class DisplaySet {
             this.#set[k] = new AppPages.DisplayUnit( k, set[k] );
         });
 
-        // without forcing a singleton, we nonetheless keep a unique instance at the package level
-        AppPages.displaySet = this;
+        // without forcing a singleton, we nonetheless keep a unique instance at the package level as a ReactiveVar
+        AppPages.displaySet.set( this );
 
         return this;
     }

@@ -27,10 +27,7 @@ AppPages.configure = function( o ){
         _conf = _.merge( AppPages._defaults, _conf, o );
         AppPages._conf.set( _conf );
         // be verbose if asked for
-        if( _conf.verbosity & AppPages.C.Verbose.CONFIGURE ){
-            //console.log( 'pwix:app-pages configure() with', o, 'building', AppPages._conf );
-            console.log( 'pwix:app-pages configure() with', o );
-        }
+        _verbose( AppPages.C.Verbose.CONFIGURE, 'configure() with', o );
     }
     // also acts as a getter
     return AppPages._conf.get();
