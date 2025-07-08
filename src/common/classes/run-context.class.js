@@ -45,7 +45,7 @@ export class RunContext {
             const displaySet = AppPages.displaySet.get();
             if( displaySet ){
                 assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
-                const page = displaySet.byName( routeName );
+                page = displaySet.byName( routeName );
             }
             self.#currentPage.set( page );
             _verbose( AppPages.C.Verbose.CURRENT_PAGE, 'RunContext::currentPage=', page ? page.name() : page );
