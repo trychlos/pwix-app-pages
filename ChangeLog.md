@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.2.0-rc
+### 1.2.0
 
-    Release date: 
+    Release date: 2025- 7- 8
 
     - Improve documentation
     - Move classes and interfaces definitions to common code, thus bumping minor candidate version number
@@ -33,4 +33,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Oct. 4th
+- Last updated on 2025, Jul. 8th
