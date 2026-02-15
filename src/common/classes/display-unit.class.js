@@ -3,7 +3,7 @@
  *
  * This class manages a display unit, which may be either a page or a modal.
  * A page display unit has its own route, while a modal doesn't.
- * Also, anyything which can goes into a menu should be described here.
+ * Also, anything which can goes into a menu should be described here.
  *
  * Only a non-empty name is mandatory. All other fields are optional.
  *
@@ -104,8 +104,8 @@ export class DisplayUnit {
     // public data
 
     /**
-     * Constructor
      * @locus Anywhere
+     * @constructor
      * @param {String} name the unit name
      * @param {Object} def the unit definition as a javascript object
      * @returns {DisplayUnit} this instance
@@ -134,6 +134,7 @@ export class DisplayUnit {
 
     /**
      * @locus Anywhere
+     * @access public
      * @param {String|Object} user the identifier or document object, defaulting to current user on client side, to null on server side
      * @returns {Boolean} whether the current user is allowed to access this display unit
      */
@@ -147,6 +148,7 @@ export class DisplayUnit {
 
     /**
      * @locus Anywhere
+     * @access public
      * @summary Generic getter
      * @param {String} key the name of the desired field
      * @returns {Any} the corresponding value
@@ -158,6 +160,7 @@ export class DisplayUnit {
 
     /**
      * @locus Anywhere
+     * @access public
      * @returns {String} the page name
      */
     name(){

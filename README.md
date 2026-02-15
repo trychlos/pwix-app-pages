@@ -13,6 +13,15 @@ The packages provides three client classes:
 - `AppPages.RunContext` which provides and manages runtime live informations and permissions about the currently displayed unit.
 
 These classes are defined, and can be used, in common code.
+ 
+## Installation
+
+This Meteor package is installable with the usual command:
+
+```sh
+    meteor add pwix:app-pages
+    meteor npm install lodash --save
+```
 
 ## Provides
 
@@ -24,13 +33,13 @@ The exported `AppPages` global object provides following items:
 
 ##### `AppPages.DisplaySet`
 
-An ensemble of `AppPages.DisplayUnit` instances.
+The set of `AppPages.DisplayUnit` instances. There is at most one per application.
 
-This class can be used as-is, or can be derived by the application. This is the reason for why this class is not automatically instanciated at initialization time. The application is expected to instanciate its `AppPages.DisplaySet` with the list of `AppPages.DisplayUnit`'s definition objects (not instances) to be managed.
+This class can be used as-is, or can be derived by the application.
 
 Methods are:
 
-- `new AppPages.DisplaySet( set<Object>, opts<Object>={} ): AppPages.DisplaySet`
+- `new AppPages.DisplaySet( set<Object> ): AppPages.DisplaySet`
 
     The constructor.
 
@@ -38,7 +47,7 @@ Methods are:
 
     - `set`:, an object where the keys are the (unique) name of the display units, and the values an object which describes the properties of the display unit.
 
-    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored, in a ReactiveVar, as `AppPages.displaySet`.
+    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.displaySet` ReactiveVar.
 
 - `byName( name<String> ): AppPages.DisplayUnit|null`
 
@@ -46,7 +55,7 @@ Methods are:
 
 - `enumerate( cb<Function>, args<Any> )`
 
-    This method iterates through the `AppPages.DisplaySet` set, and calls the provided `cb` callback.
+    This method iterates through the `AppPages.DisplaySet` set, and calls the `cb` callback with the `args` argument.
 
     The enumeration is stopped when the callback returns `false`.
 
@@ -54,7 +63,7 @@ Methods are:
 
 ##### `AppPages.DisplayUnit`
 
-A display unit, either a page or a modal or anything which can be addressable from a menu.
+A display unit, either a page or a modal or anything which can be addressed, from a menu, via a route, or anything.
 
 This class can be used as-is, or can be derived by the application.
 
@@ -164,17 +173,11 @@ Methods are:
 
     The constructor.
 
-    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored, in a ReactiveVar, as `AppPages.runContext`.
+    We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.runContext` ReactiveVar.
 
 - `currentPage(): AppPages.DisplayUnit`
 
-    This method the current display unit computed from the current route.
-
-    A reactive data source.
-
-- `dataContext( dc<Any> ): Any`
-
-    This method gets or sets the data context of the current display unit.
+    This method returns the current display unit computed from the current route.
 
     A reactive data source.
 
@@ -188,11 +191,15 @@ Methods are:
 
     This method should most probably be overriden by the application.
 
+    Defaults to `true`.
+
 - `async wantHeader(): Boolean`
 
     Whether we want display a page header.
 
     This method should most probably be overriden by the application.
+
+    Defaults to `true`.
 
 #### Functions
 

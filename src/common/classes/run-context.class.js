@@ -19,15 +19,13 @@ export class RunContext {
     // private data
 
     #currentPage = new ReactiveVar( null );
-    #dataContext = new ReactiveVar( null );
-    #title = new ReactiveVar( null );
 
     // private methods
 
     // public data
 
     /**
-     * Constructor
+     * @constructor
      * @returns {RunContext} this instance
      */
     constructor(){
@@ -58,6 +56,7 @@ export class RunContext {
     }
 
     /**
+     * @access public
      * @returns {DisplayUnit} the current page
      */
     currentPage(){
@@ -66,28 +65,8 @@ export class RunContext {
     }
 
     /**
-     * Getter/Setter
-     * @summary
-     *  The data context is attached to the current route.
-     *  It is initialized by the router (cf. imports/client/init/routes.js), and passed to the `app_main` topmost root template as template data.
-     *  We can get it through template helper as soon as we are willing to define a template helper per primary key of the passed object.
-     *  So we have chosen to define a single standard 'dataContext' key which is expected to address all the data available to the router and
-     *  needed to the pages..
-     *  At the moment, only contains the name of the page to be displayed.
-     * @param {Object} o the optional data context of the current page
-     * @returns {Object} the current data context
-     */
-    dataContext( dc ){
-        _trace( 'RunContext::dataContext() dc='+dc );
-        if( dc ){
-            check( dc, Object );
-            this.#dataContext.set( dc );
-        }
-        return this.#dataContext.get();
-    }
-
-    /**
      * @summary build a list of the display units which are planned to appear in the specified menu
+     * @access public
      * @param {String} menu the name of the menu
      * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
      */
@@ -117,6 +96,7 @@ export class RunContext {
 
     /**
      * Getter
+     * @access public
      * @returns {Boolean} whether we want display the page footer regarding the current run context
      *  Should be overiden by the application
      */
@@ -127,6 +107,7 @@ export class RunContext {
 
     /**
      * Getter
+     * @access public
      * @returns {Boolean} whether we want display the page header regarding the current run context
      *  Should be overiden by the application
      */

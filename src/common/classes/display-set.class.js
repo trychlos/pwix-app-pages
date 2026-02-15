@@ -24,8 +24,8 @@ export class DisplaySet {
     // public data
 
     /**
-     * Constructor
      * @locus Anywhere
+     * @constructor
      * @param {Object} set the application-provided definition of displayable units, as a keyed object where:
      *  - the key is the name of the display unit, must obviously be unique
      *  - the value is an object which describes the properties of the display unit
@@ -48,6 +48,7 @@ export class DisplaySet {
 
     /**
      * @locus Anywhere
+     * @access public
      * @summary Find a unit definition by name
      * @param {String} name
      * @returns {DisplayUnit} the found definition, or null
@@ -59,6 +60,7 @@ export class DisplaySet {
 
     /**
      * @locus Anywhere
+     * @access public
      * @summary Enumerate the registered DisplayUnit's definitions as provided by the application
      * @param {Function} cb a callback triggered for each unit definition as `cb( name<String>, def<DisplayUnit>, arg<Any> )`
      *  the `cb()` function must return true to continue the enumeration, false to stop it
