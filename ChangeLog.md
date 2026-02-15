@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - No more provide a default class to the display units
 
 ### 1.2.0
 
