@@ -49,17 +49,21 @@ Methods are:
 
     We have chosen to not force a singleton implementation. Nonetheless, the last instance is stored as `AppPages.displaySet` ReactiveVar.
 
+- `async allowedInMenu( menu<String>, user<String> ): Array<AppPages.DisplayUnit>`
+
+    This method returns the list of `AppPages.DisplayUnit`s which are contained in the named menu, and are allowed to the specified user.
+
 - `byName( name<String> ): AppPages.DisplayUnit|null`
 
     This method returns the named `AppPages.DisplayUnit` if found, or null.
 
-- `enumerate( cb<Function>, args<Any> )`
+- `async enumerate( cb<Function>, args<Any> )`
 
     This method iterates through the `AppPages.DisplaySet` set, and calls the `cb` callback with the `args` argument.
 
     The enumeration is stopped when the callback returns `false`.
 
-    The callback has following prototype: `cb( name<String>, unit<AppPages.DisplayUnit>, args<Any> ): Boolean`.
+    The callback has following prototype: `async cb( name<String>, unit<AppPages.DisplayUnit>, args<Any> ): Boolean`.
 
 ##### `AppPages.DisplayUnit`
 

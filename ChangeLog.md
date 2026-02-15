@@ -2,12 +2,13 @@
 
 ## ChangeLog
 
-### 1.2.1-rc
+### 1.3.0-rc
 
     Release date: 
 
     - No more provide a default class to the display units
     - Remove useless RunContext.dataContext() method
+    - Define new allowedInMenu() function, thus bumping minor candidate version number + enumerate() becomes async
 
 ### 1.2.0
 
