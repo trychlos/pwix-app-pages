@@ -37,6 +37,7 @@ export class RunContext {
         //this.title( CoreApp.configure().appName );
 
         // track the current route name to have a current DisplayUnit
+        // @locus Common as FlowRouter.getRouteName() is available on the server
         Tracker.autorun(() => {
             const routeName = FlowRouter.getRouteName();
             let page = null;
@@ -56,6 +57,7 @@ export class RunContext {
     }
 
     /**
+     * @locus Common
      * @access public
      * @returns {DisplayUnit} the current page
      */
@@ -66,6 +68,7 @@ export class RunContext {
 
     /**
      * @summary build a list of the display units which are planned to appear in the specified menu
+     * @locus Common
      * @access public
      * @param {String} menu the name of the menu
      * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
@@ -96,6 +99,7 @@ export class RunContext {
 
     /**
      * Getter
+     * @locus Common
      * @access public
      * @returns {Boolean} whether we want display the page footer regarding the current run context
      *  Should be overiden by the application
@@ -107,6 +111,7 @@ export class RunContext {
 
     /**
      * Getter
+     * @locus Common
      * @access public
      * @returns {Boolean} whether we want display the page header regarding the current run context
      *  Should be overiden by the application

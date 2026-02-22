@@ -4,11 +4,13 @@
 
 A package which let an application describe its pages, modals and so on, said _display units_.
 
-The packages provides three client classes:
+The packages provides four client classes:
 
 - `AppPages.DisplayUnit` which manages each display unit,
 
 - `AppPages.DisplaySet` which gathers all display units of the application
+
+- `AppPages.MenuItem` which defines an interface a menu item may provide
 
 - `AppPages.RunContext` which provides and manages runtime live informations and permissions about the currently displayed unit.
 
@@ -164,6 +166,34 @@ Methods are:
 - `name(): String`
 
     This method returns the unique name of this `AppPages.DisplayUnit`.
+
+##### `AppPages.MenuItem`
+
+This class defines an interface a menu item may provide.
+
+This class can be used as-is, or can be derived by the application.
+
+Methods are:
+
+- `new AppPages.MenuItem({ icon<Any>, css<Any>, label<Any>, event<Any> }): AppPages.MenuItem`
+
+    The constructor.
+
+- `css(): Any`
+
+    Returns the class.
+
+- `event(): Any`
+
+    Returns the event.
+
+- `icon(): Any`
+
+    Returns the icon.
+
+- `label(): Any`
+
+    Returns the label.
 
 ##### `AppPages.RunContext`
 

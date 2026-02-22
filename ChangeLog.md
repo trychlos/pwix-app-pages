@@ -10,6 +10,7 @@
     - Remove useless RunContext.dataContext() method
     - Define new allowedInMenu() function, thus bumping minor candidate version number + enumerate() becomes async
     - configure() now warns for unmanaged keys
+    - Introduce new AppPages.MenuItem class
 
 ### 1.2.0
 
