@@ -8,7 +8,10 @@ import _ from 'lodash';
 import { strict as assert } from 'node:assert';
 
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { Logger } from 'meteor/pwix:logger';
 import { ReactiveVar } from 'meteor/reactive-var';
+
+const logger = Logger.get();
 
 export class RunContext {
 
@@ -29,7 +32,7 @@ export class RunContext {
      * @returns {RunContext} this instance
      */
     constructor(){
-        _trace( 'RunContext::constructor()' );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.RunContext()' );
         // instanciation
         const self = this;
 
@@ -47,7 +50,7 @@ export class RunContext {
                 page = displaySet.byName( routeName );
             }
             self.#currentPage.set( page );
-            _verbose( AppPages.C.Verbose.CURRENT_PAGE, 'RunContext::currentPage=', page ? page.name() : page );
+            logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.CURRENT_PAGE }, 'RunContext.currentPage=', page ? page.name() : page );
         });
 
         // without forcing a singleton, we nonetheless keep a unique instance at the package level as a ReactiveVar
@@ -62,7 +65,7 @@ export class RunContext {
      * @returns {DisplayUnit} the current page
      */
     currentPage(){
-        _trace( 'RunContext::currentPage()' );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.currentPage()' );
         return this.#currentPage.get();
     }
 
@@ -74,7 +77,7 @@ export class RunContext {
      * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
      */
     async getMenu( menu ){
-        _trace( 'RunContext::getMenu() menu='+menu );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.getMenu() menu='+menu );
         assert( menu && _.isString( menu ), 'pwix:app-pages RunContext::getMenu() expects a string, got '+menu );
         let pages = [];
         let promises = [];
@@ -105,7 +108,7 @@ export class RunContext {
      *  Should be overiden by the application
      */
     async wantFooter(){
-        _trace( 'RunContext::wantFooter()' );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.wantFooter()' );
         return true;
     }
 
@@ -117,7 +120,7 @@ export class RunContext {
      *  Should be overiden by the application
      */
     async wantHeader(){
-        _trace( 'RunContext::wantHeader()' );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.wantHeader()' );
         return true;
     }
 }

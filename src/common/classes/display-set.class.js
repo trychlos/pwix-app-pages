@@ -9,6 +9,10 @@
 import _ from 'lodash';
 import { strict as assert } from 'node:assert';
 
+import { Logger } from 'meteor/pwix:logger';
+
+const logger = Logger.get();
+
 export class DisplaySet {
 
     // static data
@@ -33,7 +37,7 @@ export class DisplaySet {
      * @throws {Exception} if the provided set is not valid
      */
     constructor( set ){
-        _trace( 'DisplaySet::constructor() set='+set );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplaySet.DisplaySet() set='+set );
         assert( set && _.isObject( set ), 'pwix:app-pages DisplaySet() expects an object, got '+set );
 
         Object.keys( set ).forEach(( k ) => {
@@ -55,7 +59,7 @@ export class DisplaySet {
      * @returns {Array<DisplayUnit>} the list of DisplayUnit's allowed for this user
      */
     async allowedInMenu( menu, user ){
-        _trace( 'DisplaySet::allowedList() menu='+menu+' user='+user );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplaySet.allowedInMenu() menu='+menu+' user='+user );
         let result = [];
         await this.enumerate( async ( name, unit, args ) => {
             const menus = unit.get( 'inMenus' );
@@ -78,7 +82,7 @@ export class DisplaySet {
      * @returns {DisplayUnit} the found definition, or null
      */
     byName( name ){
-        _trace( 'DisplaySet::byName() name='+name );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplaySet.byName() name='+name );
         return this.#set[name] || null;
     }
 
@@ -91,7 +95,7 @@ export class DisplaySet {
      * @param {Any} arg an optional argument to be provided to the cb() callback
      */
     async enumerate( cb, arg=null ){
-        _trace( 'DisplaySet::enumerate()' );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplaySet.enumerate()' );
         const self = this;
         assert( cb && _.isFunction( cb ), 'expected a function, found '+cb );
         const keys = Object.keys( self.#set ).sort();

@@ -31,6 +31,10 @@
 import _ from 'lodash';
 import { strict as assert } from 'node:assert';
 
+import { Logger } from 'meteor/pwix:logger';
+
+const logger = Logger.get();
+
 export class DisplayUnit {
 
     // static data
@@ -112,7 +116,7 @@ export class DisplayUnit {
      * @throws {Exception} if the provided definition is not valid
      */
     constructor( name, def ){
-        _trace( 'DisplayUnit::constructor() name='+name );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.DisplayUnit() name='+name, 'def', def );
         assert( name && _.isString( name ), 'pwix:app-pages DisplayUnit() expects a string, got '+name );
 
         this._checkStringOrArray( def, 'classes', AppPages.configure().classes );
@@ -127,7 +131,7 @@ export class DisplayUnit {
         this.#name = name;
         this._def = { ...def };
 
-        _verbose( AppPages.C.Verbose.DISPLAY_UNIT, 'DisplayUnit instanciation', name );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.DISPLAY_UNIT }, 'DisplayUnit instanciation', name );
 
         return this;
     }
@@ -139,7 +143,7 @@ export class DisplayUnit {
      * @returns {Boolean} whether the current user is allowed to access this display unit
      */
     async accessAllowed( user ){
-        _trace( 'DisplayUnit::accessAllowed() user='+user );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.accessAllowed() user='+user );
         const allowFn = AppPages.configure().allowFn;
         const wantPermission = this.get( 'wantPermission' );
         const res = await ( allowFn && wantPermission ? allowFn( wantPermission, user, this ) : false );
@@ -154,7 +158,7 @@ export class DisplayUnit {
      * @returns {Any} the corresponding value
      */
     get( key ){
-        _trace( 'DisplayUnit::get() key='+key );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.get() key='+key );
         return key === 'name' ? this.name() : this._def[key];
     }
 
@@ -164,7 +168,7 @@ export class DisplayUnit {
      * @returns {String} the page name
      */
     name(){
-        _trace( 'DisplayUnit::name()' );
+        logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.name()' );
         return this.#name;
     }
 }
