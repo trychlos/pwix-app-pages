@@ -10,7 +10,8 @@
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
-|    1 |  |  |
+|    1 | 2026- 3-14 | extend DisplaySet.allowedInMenu() to have a hierarchy of submenus |
+|    2 |  |  |
 
 ---
 ## Done

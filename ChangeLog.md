@@ -8,7 +8,7 @@
 
     - No more provide a default class to the display units
     - Remove useless RunContext.dataContext() method
-    - Define new allowedInMenu() function, thus bumping minor candidate version number + enumerate() becomes async
+    - enumerate() becomes async
     - configure() now warns for unmanaged keys
     - Introduce new AppPages.MenuItem class
     - Use pwix:logger universal logger

@@ -74,29 +74,26 @@ export class RunContext {
      * @locus Common
      * @access public
      * @param {String} menu the name of the menu
-     * @returns {Array<DisplayUnit>} the ordered list of the allowed display units
+     * @returns {Array} the ordered list of the allowed display units as objects { name, unit }
      */
     async getMenu( menu ){
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.getMenu() menu='+menu );
         assert( menu && _.isString( menu ), 'pwix:app-pages RunContext::getMenu() expects a string, got '+menu );
         let pages = [];
-        let promises = [];
         const displaySet = AppPages.displaySet.get();
-        if( displaySet ){
+        const userId = Meteor.userId();
+        if( displaySet && userId ){
             assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
-            displaySet.enumerate(( name, page ) => {
+            await displaySet.enumerate( async ( name, page ) => {
                 if( page.get( 'inMenus' ).includes( menu )){
-                    promises.push( page.accessAllowed().then(( res ) => {
-                        if( res ){
-                            pages.push( page );
-                        }
-                        return true;
-                    }));
+                    const allowed = await page.accessAllowed( userId );
+                    if( allowed ){
+                        pages.push({ name, unit: page });
+                    }
                 }
                 return true;
             });
         }
-        await Promise.allSettled( promises );
         return pages;
     }
 
