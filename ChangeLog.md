@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.3.0-rc
+### 1.3.0
 
-    Release date: 
+    Release date: 2026- 5- 2
 
     - No more provide a default class to the display units
     - Remove useless RunContext.dataContext() method
@@ -44,4 +44,4 @@
 
 ---
 P. Wieser
-- Last updated on 2025, Jul. 8th
+- Last updated on 2026, May. 2nd
