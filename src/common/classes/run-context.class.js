@@ -36,9 +36,6 @@ export class RunContext {
         // instanciation
         const self = this;
 
-        // initialize the default application title to its name
-        //this.title( CoreApp.configure().appName );
-
         // track the current route name to have a current DisplayUnit
         // @locus Common as FlowRouter.getRouteName() is available on the server
         Tracker.autorun(() => {

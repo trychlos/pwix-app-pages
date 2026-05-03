@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Update test/index.js to remove any mention from core-app
 
 ### 1.3.0
 
