@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:app-pages',
-    version: '1.3.1',
+    version: '1.3.2-rc.0',
     summary: 'Meteor APP pages description',
     git: 'https://github.com/trychlos/pwix-app-pages.git',
     documentation: 'README.md'
