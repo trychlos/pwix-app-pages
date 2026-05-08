@@ -195,6 +195,59 @@ Methods are:
 
     Returns the label.
 
+##### `AppPages.MenuSet`
+
+This class defines a menu as an ordered list of `DisplayUnit`s.
+
+Methods are:
+
+- `new AppPages.MenuSet({ name<String>, def<Array> }): AppPages.MenuSet`
+
+    The constructor, where:
+
+    - `name` is the name of the menu, must be unique in the application
+
+    - `def` is an array where each item can be:
+
+        - an object with a single `unit` key, whose value must be an object with a single `name` key identifying the `DisplayUnit`
+
+        - an object with a single `menu` key, whose value must be an object with:
+        
+            - a `label` key providing the localized label to be displayed to open the sub-menu
+
+            - a `name` key identifying another menu as a sub-menu
+
+        - an object with a single `divider` key, whose value is expected to be `true`.
+
+- `static async getMenu( name<String> ): Array`
+
+    Returns the named menu as an array where each item can be:
+
+    - an allowed `DisplayUnit`
+
+    - the `AppPages.C.Divider` constant
+
+    - a `{ label, menu }` object.
+
+- `static hasMenu( name<String): Boolean`
+
+    Whether the named menu has been defined.
+
+Example:
+
+```js
+    new AppPages.MenuSet( 'app_menu_button', [
+        { unit: { name: 'managers' }},
+        { divider: true },
+        { unit: { name: 'organization' }},
+        { unit: { name: 'resources' }},
+        { divider: true },
+        { unit: { name: 'settings' }}
+    ]);
+```
+
+As the `AppPages.MenuSet` class keeps itself all definitions, there is no need for the application to keep the menuSet instance in a specific variable.
+
 ##### `AppPages.RunContext`
 
 Let the application access or manages to live informations and permissions.

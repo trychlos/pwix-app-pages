@@ -11,6 +11,8 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Logger } from 'meteor/pwix:logger';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+import { MenuSet } from './menu-set.class.js';
+
 const logger = Logger.get();
 
 export class RunContext {
@@ -40,14 +42,18 @@ export class RunContext {
         // @locus Common as FlowRouter.getRouteName() is available on the server
         Tracker.autorun(() => {
             const routeName = FlowRouter.getRouteName();
-            let page = null;
-            const displaySet = AppPages.displaySet.get();
-            if( displaySet ){
-                assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
-                page = displaySet.byName( routeName );
+            if( routeName ){
+                let page = null;
+                const displaySet = AppPages.displaySet.get();
+                if( displaySet ){
+                    assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
+                    page = displaySet.byName( routeName );
+                }
+                if( page ){
+                    self.#currentPage.set( page );
+                    logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.CURRENT_PAGE }, 'RunContext.currentPage=', page ? page.name() : page );
+                }
             }
-            self.#currentPage.set( page );
-            logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.CURRENT_PAGE }, 'RunContext.currentPage=', page ? page.name() : page );
         });
 
         // without forcing a singleton, we nonetheless keep a unique instance at the package level as a ReactiveVar
@@ -68,6 +74,7 @@ export class RunContext {
 
     /**
      * @summary build a list of the display units which are planned to appear in the specified menu
+     *  If a MenuSet menu has been defined, then ask it the menu, else built it here
      * @locus Common
      * @access public
      * @param {String} menu the name of the menu
@@ -77,19 +84,23 @@ export class RunContext {
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.getMenu() menu='+menu );
         assert( menu && _.isString( menu ), 'pwix:app-pages RunContext::getMenu() expects a string, got '+menu );
         let pages = [];
-        const displaySet = AppPages.displaySet.get();
-        const userId = Meteor.userId();
-        if( displaySet && userId ){
-            assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
-            await displaySet.enumerate( async ( name, page ) => {
-                if( page.get( 'inMenus' ).includes( menu )){
-                    const allowed = await page.accessAllowed( userId );
-                    if( allowed ){
-                        pages.push({ name, unit: page });
+        if( MenuSet.hasMenu( menu )){
+            pages = await MenuSet.getMenu( menu );
+        } else {
+            const displaySet = AppPages.displaySet.get();
+            const userId = Meteor.userId();
+            if( displaySet && userId ){
+                assert( displaySet instanceof AppPages.DisplaySet, 'expects a DisplaySet, got '+displaySet );
+                await displaySet.enumerate( async ( name, page ) => {
+                    if( page.get( 'inMenus' ).includes( menu )){
+                        const allowed = await page.accessAllowed( userId );
+                        if( allowed ){
+                            pages.push({ name, unit: page });
+                        }
                     }
-                }
-                return true;
-            });
+                    return true;
+                });
+            }
         }
         return pages;
     }

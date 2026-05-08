@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 1.3.2-rc.0
+### 1.4.0-rc.0
 
     Release date: 
 
-    - 
+    - Define new MenuSet class to define a menu, thus bumping minor candidate version number
 
 ### 1.3.1
 

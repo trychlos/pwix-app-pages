@@ -3,6 +3,9 @@
  */
 
 AppPages.C = {
+    // a divider in the menu
+    Divider:            'DIVIDER',
+
     // verbosity levels
     Verbose: {
         NONE: 0,
