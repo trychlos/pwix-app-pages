@@ -17,6 +17,8 @@ export class DisplaySet {
 
     // static data
 
+    static Singleton = null;
+
     // static methods
 
     // private data
@@ -37,6 +39,11 @@ export class DisplaySet {
      * @throws {Exception} if the provided set is not valid
      */
     constructor( set ){
+        if( DisplaySet.Singleton ){
+            logger.debug( 'returning alreadyn instanciated singleton' );
+            return DisplaySet.Singleton;
+        }
+
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplaySet.DisplaySet() set='+set );
         assert( set && _.isObject( set ), 'pwix:app-pages DisplaySet() expects an object, got '+set );
 
@@ -44,7 +51,10 @@ export class DisplaySet {
             this.#set[k] = new AppPages.DisplayUnit( k, set[k] );
         });
 
-        // without forcing a singleton, we nonetheless keep a unique instance at the package level as a ReactiveVar
+        // force a singleton
+        DisplaySet.Singleton = this;
+
+        // and keep anyway this unique instance at the package level as a ReactiveVar
         AppPages.displaySet.set( this );
 
         return this;

@@ -7,6 +7,7 @@
     Release date: 
 
     - Define new MenuSet class to define a menu, thus bumping minor candidate version number
+    - Force AppPages.DisplaySet to be a singleton
 
 ### 1.3.1
 
