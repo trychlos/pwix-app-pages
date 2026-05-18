@@ -11,11 +11,12 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Logger } from 'meteor/pwix:logger';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+import { AppPagesBase } from './app-pages-base.class.js';
 import { MenuSet } from './menu-set.class.js';
 
 const logger = Logger.get();
 
-export class RunContext {
+export class RunContext extends AppPagesBase {
 
     // static data
 
@@ -34,6 +35,8 @@ export class RunContext {
      * @returns {RunContext} this instance
      */
     constructor(){
+        super( ...arguments );
+
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'RunContext.RunContext()' );
         // instanciation
         const self = this;

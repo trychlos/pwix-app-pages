@@ -2,22 +2,36 @@
  * pwix:app-pages/src/common/classes/menu-item.class.js
  *
  * This class defines the interface a menu item may implement.
+ * 
+ * A menu item can be:
+ * 
+ * - a styled label which, when selected/hovered, does an action, the possible actions being:
+ *   > triggering an event
+ *   > opening another menu
+ * 
+ * - an unselectable separator.
  */
 
 import _ from 'lodash';
 import { strict as assert } from 'node:assert';
+import mix from '@vestergaard-company/js-mixin';
 
-export class MenuItem {
+import { Logger } from 'meteor/pwix:logger';
+
+import { AppPagesBase } from './app-pages-base.class.js';
+
+import { IMenuItem } from '../interfaces/imenu-item.iface.js';
+
+const logger = Logger.get();
+
+export class MenuItem extends mix( AppPagesBase ).with( IMenuItem ){
 
     // static data
 
     // static methods
 
     // private data
-    #css = null;
-    #event = null;
-    #icon = null;
-    #label = null;
+    #def = null;
 
     // private methods
 
@@ -26,65 +40,59 @@ export class MenuItem {
     /**
      * @locus Anywhere
      * @constructor
-     * @param {Object} an optional options object with following keys:
+     * @param {Object} def a definition object with following keys:
      * 
-     *  - icon: the icon to be displayed in front of the menu item
-     *    may eventually resolve to a HTML string
-     *    e.g. '<span class="fa-solid fa-fw fa-chevron-right ui-mr05"></span>'
+     *  - unit: {
+     *      name: <unit_name>  the item is a display unit
+     *    }
      * 
-     *  - css: the class to be set on the item, should at least include 'dropdown-item'
-     *    e.g.: 'dropdown-item d-flex align-items-center justify-content-start'
+     *  - divider: true
      * 
-     *  - label: the menu item label as a HTML string
-     *    may eventually resolve to a HTML string
-     * 
-     *  - event: the data-event attribute attached to the item
-     *    if no event is defined, then no event will be triggered
+     *  - menu: {
+     *      label: the styled and localized label of the sub-menu title, as a HTML string
+     *      name: <menu_name> the item is a sub-menu
+     *    }
      * 
      * @returns {MenuItem} this instance
      */
-    constructor( opts ){
-        opts = opts || {};
-        this.#icon = opts.icon;
-        this.#label = opts.label;
-        this.#css = opts.css;
-        this.#event = opts.event;
+    constructor( def ){
+        super( ...arguments );
+
+        this.#def = def;
+
         return this;
     }
 
     /**
      * @locus Anywhere
-     * @access public
-     * @returns {Any} the class to be added to the itemm
+     * @returns {Object} the initial definition of the menu item
      */
-    css(){
-        return this.#css;
+    defn(){
+        return this.#def;
     }
 
     /**
      * @locus Anywhere
-     * @access public
-     * @returns {Any} the event triggered when the item is chosen
+     * @param {String} name the name of an additional property
+     * @returns {String} the value of the named additional property
      */
-    event(){
-        return this.#event;
+    get( name ){
+        const defn = this.defn();
+        let value = defn[name] || null;
+        if( !value && this.isDisplayUnit()){
+            const unit = this.unit();
+            if( unit ){
+                value = unit.get( name );
+            }
+        }
+        return value;
     }
 
     /**
      * @locus Anywhere
-     * @access public
-     * @returns {Any} the icon to be displayed in front of the menu item
+     * @returns {DisplayUnit} the display unit attached to this menu item, or null
      */
-    icon(){
-        return this.#icon;
-    }
-
-    /**
-     * @locus Anywhere
-     * @access public
-     * @returns {Any} the menu item label
-     */
-    label(){
-        return this.#label;
+    unit(){
+        return AppPages.displaySet.get().byName( this.name());
     }
 }

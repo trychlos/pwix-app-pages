@@ -8,6 +8,7 @@
 
     - Define new MenuSet class to define a menu, thus bumping minor candidate version number
     - Force AppPages.DisplaySet to be a singleton
+    - Define new IMenuItem interface to MenuItem class
 
 ### 1.3.1
 

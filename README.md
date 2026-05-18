@@ -103,6 +103,8 @@ Methods are:
 
             Defaulting to an empty array.
 
+            Starting with v1.4, this property is ignored when the application defines a `MenuSet`.
+
         - `menuIcon`
 
             Type: String
@@ -212,12 +214,14 @@ Methods are:
         - an object with a single `unit` key, whose value must be an object with a single `name` key identifying the `DisplayUnit`
 
         - an object with a single `menu` key, whose value must be an object with:
-        
+
+            - an optional `icon` key providing the icon display as a HTML string
+
             - a `label` key providing the localized label to be displayed to open the sub-menu
 
             - a `name` key identifying another menu as a sub-menu
 
-        - an object with a single `divider` key, whose value is expected to be `true`.
+        - an object with a single `divider` key, which will be honored if its value is truethy.
 
 - `static async getMenu( name<String> ): Array`
 
@@ -247,6 +251,8 @@ Example:
 ```
 
 As the `AppPages.MenuSet` class keeps itself all definitions, there is no need for the application to keep the menuSet instance in a specific variable.
+
+New in v1.4.
 
 ##### `AppPages.RunContext`
 

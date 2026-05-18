@@ -33,9 +33,11 @@ import { strict as assert } from 'node:assert';
 
 import { Logger } from 'meteor/pwix:logger';
 
+import { AppPagesBase } from './app-pages-base.class.js';
+
 const logger = Logger.get();
 
-export class DisplayUnit {
+export class DisplayUnit extends AppPagesBase {
 
     // static data
 
@@ -116,6 +118,8 @@ export class DisplayUnit {
      * @throws {Exception} if the provided definition is not valid
      */
     constructor( name, def ){
+        super( ...arguments );
+
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.DisplayUnit() name='+name, 'def', def );
         assert( name && _.isString( name ), 'pwix:app-pages DisplayUnit() expects a string, got '+name );
 
@@ -165,7 +169,7 @@ export class DisplayUnit {
     /**
      * @locus Anywhere
      * @access public
-     * @returns {String} the page name
+     * @returns {String} the display unit name
      */
     name(){
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.name()' );

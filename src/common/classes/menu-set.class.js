@@ -10,9 +10,12 @@ import { strict as assert } from 'node:assert';
 import { check, Match } from 'meteor/check';
 import { Logger } from 'meteor/pwix:logger';
 
+import { AppPagesBase } from './app-pages-base.class.js';
+import { MenuItem } from './menu-item.class.js';
+
 const logger = Logger.get();
 
-export class MenuSet {
+export class MenuSet extends AppPagesBase {
 
     // static data
 
@@ -31,8 +34,11 @@ export class MenuSet {
      */
     static async getMenu( name ){
         check( name, Match.NonEmptyString );
-        const menu = MenuSet.menus[name];
-        return await menu.buildMenu();
+        if( MenuSet.hasMenu( name )){
+            const menu = MenuSet.menus[name];
+            return await menu.buildMenu();
+        }
+        return null;
     }
 
     /**
@@ -50,6 +56,7 @@ export class MenuSet {
     // the name of the menu
     #name = null;
     #def = null;
+    #items = null;
 
     // private methods
 
@@ -68,17 +75,26 @@ export class MenuSet {
      *  - divider: true
      * 
      *  - menu: {
-     *      label: the label of the sub-menu title
+     *      label: the styled and localized label of the sub-menu title, as a HTML string
      *      name: <menu_name> the item is a sub-menu
      *    }
      * 
      * @returns {MenuSet} this instance
      */
     constructor( name, def ){
+        super( ...arguments );
+
         check( name, Match.NonEmptyString );
         check( def, [Object] );
         this.#name = name;
         this.#def = def;
+
+        // instanciate menu items
+        const items = [];
+        for( const it of this.#def ){
+            items.push( new MenuItem( it ));
+        }
+        this.#items = items;
 
         MenuSet.menus[name] = this;
 
@@ -87,31 +103,31 @@ export class MenuSet {
 
     /**
      * @locus Anywhere
-     * @returns {Array} the menu as a list of DisplayUnit's or sub-menus
+     * @returns {Array} the menu as an array of MenuItem's
      */
     async buildMenu(){
         const menu = [];
-        for( const it of this.#def ){
+        for( const it of this.#items ){
             // do not put a divider as first member
             //  do not put a divider just after another divider
-            if( it.divider ){
-                if( menu.length && menu[menu.length-1] !== AppPages.C.Divider ){
-                    menu.push( AppPages.C.Divider );
+            if( it.isDivider()){
+                if( menu.length && !menu[menu.length-1].isDivider()){
+                    menu.push( it );
                 }
             }
-            if( it.unit ){
-                const unit = AppPages.displaySet.get().byName( it.unit.name );
+            if( it.isDisplayUnit()){
+                const unit = AppPages.displaySet.get().byName( it.name());
                 if( unit ){
                     const allowed = await unit.accessAllowed( Meteor.userId());
                     if( allowed ){
-                        menu.push( unit );
+                        menu.push( it );
                     }
                 }
             }
-            if( it.menu ){
-                const label = it.menu.label || it.menu.name;
-                const sub = await this.buildMenu( it.menu.name );
-                menu.push({ label, sub });
+            if( it.isMenu()){
+                const label = it.label() || it.name();
+                const sub = await this.buildMenu( it.name());
+                menu.push( it );
             }
         }
         return menu;

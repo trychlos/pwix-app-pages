@@ -11,9 +11,11 @@ import { strict as assert } from 'node:assert';
 
 import { Logger } from 'meteor/pwix:logger';
 
+import { AppPagesBase } from './app-pages-base.class.js';
+
 const logger = Logger.get();
 
-export class DisplaySet {
+export class DisplaySet extends AppPagesBase {
 
     // static data
 
@@ -39,6 +41,8 @@ export class DisplaySet {
      * @throws {Exception} if the provided set is not valid
      */
     constructor( set ){
+        super( ...arguments );
+
         if( DisplaySet.Singleton ){
             logger.debug( 'returning alreadyn instanciated singleton' );
             return DisplaySet.Singleton;

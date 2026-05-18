@@ -9,6 +9,7 @@ if( false ){
 }
 
 checkNpmVersions({
+    '@vestergaard-company/js-mixin': '^1.0.3',
     'lodash': '^4.17.0'
 },
     'pwix:app-pages'
