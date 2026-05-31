@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.4.0-rc.0
+### 1.4.0
 
-    Release date: 
+    Release date: 2026- 5-31
 
     - Define new MenuSet class to define a menu, thus bumping minor candidate version number
     - Force AppPages.DisplaySet to be a singleton
@@ -58,4 +58,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, May. 3rd
+- Last updated on 2026, May. 31st
