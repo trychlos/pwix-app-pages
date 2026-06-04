@@ -145,14 +145,20 @@ export class DisplayUnit extends AppPagesBase {
      * @access public
      * @param {String|Object} user the identifier or document object, defaulting to current user on client side, to null on server side
      * @returns {Boolean} whether the current user is allowed to access this display unit
+     *  Remind:
+     *  cf. README: 'If the function is not provided, then the default is to deny all actions'
+     *  If we have a function, not the display unit doesn't require a permission, then allow it
      */
     async accessAllowed( user ){
         logger.verbose({ verbosity: AppPages.configure().verbosity, against: AppPages.C.Verbose.FUNCTIONS }, 'DisplayUnit.accessAllowed() user='+user );
         const allowFn = AppPages.configure().allowFn;
-        const wantPermission = this.get( 'wantPermission' );
-        const res = await ( allowFn && wantPermission ? allowFn( wantPermission, user, this ) : false );
-        return res;
-}
+        if( allowFn ){
+            const wantPermission = this.get( 'wantPermission' );
+            const res = await ( wantPermission ? allowFn( wantPermission, user, this ) : true );
+            return res;
+        }
+        return false;
+    }
 
     /**
      * @locus Anywhere

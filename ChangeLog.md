@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Fix the access to a display unit which doesn't require any permission
 
 ### 1.4.0
 
