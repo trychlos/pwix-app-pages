@@ -7,6 +7,7 @@
     Release date: 
 
     - Fix the access to a display unit which doesn't require any permission
+    - Use Meteor:check to match booleans
 
 ### 1.4.0
 

@@ -31,6 +31,7 @@
 import _ from 'lodash';
 import { strict as assert } from 'node:assert';
 
+import { check, Match } from 'meteor/check';
 import { Logger } from 'meteor/pwix:logger';
 
 import { AppPagesBase } from './app-pages-base.class.js';
