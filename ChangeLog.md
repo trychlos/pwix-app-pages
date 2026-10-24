@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.4.1-rc.0
+### 1.4.1
 
-    Release date: 
+    Release date: 2026-10-24
 
     - Fix the access to a display unit which doesn't require any permission
     - Use Meteor:check to match booleans
@@ -65,4 +65,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, May. 31st
+- Last updated on 2026, Oct. 24th
